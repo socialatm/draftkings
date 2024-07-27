@@ -53,7 +53,7 @@ def scrape_dk():
                         # Append fighter bout id to list
                         bout_ids.append(int(i.find('a').get('href').split('/')[-1]))
 
-                if all_fighters_odds_list and all_fighters_odds_list % 2 == 0:
+                if all_fighters_odds_list and len(all_fighters_odds_list) % 2 == 0:
                 
                     # Make a list of the first fighters in the bout using the list of all fighters
                     fighter_1 = [all_fighters_list[i] for i in range(0, len(all_fighters_list), 2)]
@@ -147,7 +147,7 @@ def main():
                 # Send email update of new fight data (name of file, message body, and subject)
                 send_email(csv_filename, body, "New UFC Fight Odds")
 
-        time.sleep(10)  # Wait for 60 seconds before scraping again
+        time.sleep(60)  # Wait for 60 seconds before scraping again
 
 if __name__ == "__main__":
     main()

@@ -105,7 +105,7 @@ def main():
             # Update local csv file with new odds
             update_csv_with_new_odds(csv_file_path, fighters_to_be_tracked_dict)
 
-        time.sleep(3600)  # Wait for 1800 seconds (half hour) before scraping again
+        time.sleep(60)  # Wait for 60 seconds (half hour) before scraping again
 
 if __name__ == "__main__":
     main()
