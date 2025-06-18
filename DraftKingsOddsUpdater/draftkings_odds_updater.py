@@ -50,13 +50,13 @@ def scrape_dk():
 
                 return current_fighter_odds_dict # Return the dictionary
             else:
-                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                print(f"[{current_time}] Failed to retrieve data: {response.status_code}")
+                current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                print(f"{current_time} - Failed to retrieve data: {response.status_code}")
                 return None # Return None if data retrieval fails
             
         except requests.RequestException as e:
-                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                print(f"[{current_time}] Request failed: {e}. Retrying in {retry_delay} seconds...")
+                current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                print(f"{current_time} - Request failed: {e}. Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
 
 def update_csv_with_new_odds(csv_file_path, updated_fighters_dict):
@@ -92,8 +92,8 @@ def main():
     csv_file_path = 'fighters_to_be_tracked.csv'
 
     while True:
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print(f"[{current_time}] Running")
+        current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+        print(f"{current_time} - odds updater running")
         # Get the fighters to be tracked from the CSV file
         fighters_to_be_tracked_dict = fighters_to_be_tracked(csv_file_path)
         # Scrape the current fighter odds from DraftKings
@@ -110,8 +110,8 @@ def main():
                 
                 # Check if the odds have changed by at least 10 points
                 if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 10:
-                    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    print(f"[{current_time}] Odds change detected for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
+                    current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                    print(f"{current_time} - Odds change detected for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
                     
                     # Update the dictionary with the new odds
                     fighters_to_be_tracked_dict[fighter] = current_odds_str

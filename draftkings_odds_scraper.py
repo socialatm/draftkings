@@ -79,17 +79,17 @@ def scrape_dk():
                     return False
             
             else:
-                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                print(f"[{current_time}] Failed to retrieve data: {response.status_code}")
+                current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                print(f"{current_time} - Failed to retrieve data: {response.status_code}")
                 return None
             
         except requests.RequestException as e:
-            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            print(f"[{current_time}] Request failed: {e}. Retrying in {retry_delay} seconds...")
+            current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+            print(f"{current_time} - Request failed: {e}. Retrying in {retry_delay} seconds...")
             time.sleep(retry_delay)
 
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"[{current_time}] Max retries reached. Failed to retrieve data.")
+    current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+    print(f"{current_time} - Max retries reached. Failed to retrieve data.")
     return None
     
 # Function to append data to a CSV file
@@ -117,8 +117,8 @@ def main():
     
     
     while True:
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print(f'[{current_time}] running')
+        current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+        print(f'{current_time} - odds scraper running')
 
         stored_fight_data_df = load_data_from_csv(csv_filename)
 
