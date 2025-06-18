@@ -4,6 +4,7 @@ import pandas as pd
 import time
 import os
 from datetime import datetime
+import sys
 
 def fighters_to_be_tracked(csv_file_path):
     # Read the CSV file into a DataFrame
@@ -118,8 +119,12 @@ def main():
 
             # Update local csv file with new odds
             update_csv_with_new_odds(csv_file_path, fighters_to_be_tracked_dict)
+            sys.exit("Data processing complete. Exiting program.")
+        else:
+            current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+            print(f"{current_time} - No fighters to be tracked found or data retrieval failed. Retrying in 60 seconds...")
 
-        time.sleep(60)  # Wait for 60 seconds before scraping again
+            time.sleep(60)  # Wait for 60 seconds before scraping again
 
 if __name__ == "__main__":
     main()
