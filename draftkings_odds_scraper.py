@@ -4,6 +4,7 @@ import pandas as pd
 import time
 import os
 from datetime import datetime
+import sys
 
 def scrape_dk():
     # URL of the DraftKings UFC odds page
@@ -19,6 +20,8 @@ def scrape_dk():
 
             # Fetch the HTML content from the URL
             response = requests.get(url)
+
+            print(f"Attempt {attempt + 1}: Status Code: {response.status_code}")
 
             if response.status_code == 200:
                 # Store response content
@@ -142,8 +145,11 @@ def main():
 
                 # Append new fight data to CSV file
                 append_data_to_csv(new_fights_df, csv_filename)
-
-        time.sleep(60)  # Wait for 60 seconds before scraping again
+                
+            sys.exit("Data processing complete. Exiting program.")
+        else:
+        
+            time.sleep(60)  # Wait for 60 seconds before scraping again
 
 if __name__ == "__main__":
     main()
