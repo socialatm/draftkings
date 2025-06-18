@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
-from send_message import send_email_no_attachment
 import os
 from datetime import datetime
 
@@ -113,8 +112,7 @@ def main():
                 if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 10:
                     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     print(f"[{current_time}] Odds change detected for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
-                    # Send email update on new odds
-                    send_email_no_attachment(f"The odds for {fighter} have changed from {fighters_to_be_tracked_dict[fighter]} to {current_fighter_odds_dict[fighter]}.", f"{fighter} odds updated")
+                    
                     # Update the dictionary with the new odds
                     fighters_to_be_tracked_dict[fighter] = current_odds_str
 
