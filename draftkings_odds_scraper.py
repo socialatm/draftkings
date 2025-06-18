@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
-from send_message import send_email
 import os
 from datetime import datetime
 
@@ -144,11 +143,7 @@ def main():
                 # Append new fight data to CSV file
                 append_data_to_csv(new_fights_df, csv_filename)
 
-                # Send email update of new fight data (name of file, message body, and subject)
-                send_email(csv_filename, body, "New UFC Fight Odds")
-
         time.sleep(60)  # Wait for 60 seconds before scraping again
 
 if __name__ == "__main__":
     main()
-
