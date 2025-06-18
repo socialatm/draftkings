@@ -21,8 +21,6 @@ def scrape_dk():
             # Fetch the HTML content from the URL
             response = requests.get(url)
 
-            print(f"Attempt {attempt + 1}: Status Code: {response.status_code}")
-
             if response.status_code == 200:
                 # Store response content
                 html_content = response.content
@@ -92,8 +90,7 @@ def scrape_dk():
             time.sleep(retry_delay)
 
     current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
-    print(f"{current_time} - Max retries reached. Failed to retrieve data.")
-    return None
+    sys.exit("{current_time} - Max retries reached. Failed to retrieve data.")
     
 # Function to append data to a CSV file
 def append_data_to_csv(df, file_path):
