@@ -112,8 +112,7 @@ def main():
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
     # Define the path to the CSV file
-    csv_filename = os.path.join(current_directory, 'ufc_fight_odds.csv')
-
+    csv_filename = os.path.join(current_directory, 'fight_odds.csv')
     
     
     while True:
