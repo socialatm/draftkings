@@ -72,8 +72,14 @@ def scrape_dk():
                     # Make a list of the bout ids 
                     fighter_bout_id = [bout_ids[i] for i in range(0, len(all_fighters_list), 2)]
 
-                    # Sort the column data to make ready to return
-                    data = list(zip(fighter_1, fighter_1_odds, fighter_2, fighter_2_odds, fighter_bout_id))
+
+
+                    # Get current timestamp for all rows
+                    current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    timestamps = [current_timestamp] * len(fighter_1)
+
+                    # Sort the column data to make ready to return (now includes timestamp)
+                    data = list(zip(fighter_1, fighter_1_odds, fighter_2, fighter_2_odds, fighter_bout_id, timestamps))
 
                     return data
                 
@@ -107,7 +113,8 @@ def load_data_from_csv(filename):
         df = pd.read_csv(filename)
         return df
     except FileNotFoundError:
-        return pd.DataFrame(columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id'])
+
+        return pd.DataFrame(columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'timestamp'])
     
 def main():
     # Get the current directory of the script
@@ -127,7 +134,7 @@ def main():
 
         if scraped_data:
             # Create new dataframe using data scraped from DK website
-            newly_scraped_fight_data_df = pd.DataFrame(scraped_data, columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id'])
+            newly_scraped_fight_data_df = pd.DataFrame(scraped_data, columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'timestamp'])
 
             # Identify new fights by comparing fighter_bout_id against previous data
             new_fights = []
