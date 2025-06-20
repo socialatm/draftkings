@@ -7,13 +7,19 @@ from datetime import datetime
 import sys
 
 def fighters_to_be_tracked(csv_file_path):
-    # Read the CSV file into a DataFrame
-    df = pd.read_csv(csv_file_path, dtype={'fighter_odds': str})  # Convert fighter_odds column to str
-    fighter_name = df['fighter_name'].tolist()  # Convert fighter names to a list
-    fighter_odds = df['fighter_odds'].tolist()  # Convert fighter odds to a list
-    # Create a dictionary with fighter names as keys and their odds as values
-    fighters_to_be_tracked_dict = {k: v for k, v in zip(fighter_name, fighter_odds)}
-    return fighters_to_be_tracked_dict  # Return the dictionary
+    try:
+        df = pd.read_csv(csv_file_path, dtype={'fighter_odds': str})  # Convert fighter_odds column to str
+        fighter_name = df['fighter_name'].tolist()  # Convert fighter names to a list
+        fighter_odds = df['fighter_odds'].tolist()  # Convert fighter odds to a list
+        # Create a dictionary with fighter names as keys and their odds as values
+        fighters_to_be_tracked_dict = {k: v for k, v in zip(fighter_name, fighter_odds)}
+        return fighters_to_be_tracked_dict  # Return the dictionary
+    except FileNotFoundError:
+        print(f"Error: CSV file not found at {csv_file_path}")
+        return {}
+    except pd.errors.EmptyDataError:
+        print(f"Error: CSV file is empty or malformed")
+        return {}
 
 def scrape_dk():
     # URL of the DraftKings UFC odds page
