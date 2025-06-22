@@ -8,11 +8,20 @@ import sys
 
 def fighters_to_be_tracked(csv_file_path):
     try:
-        df = pd.read_csv(csv_file_path, dtype={'fighter_odds': str})  # Convert fighter_odds column to str
-        fighter_name = df['fighter_name'].tolist()  # Convert fighter names to a list
-        fighter_odds = df['fighter_odds'].tolist()  # Convert fighter odds to a list
-        # Create a dictionary with fighter names as keys and their odds as values
-        fighters_to_be_tracked_dict = {k: v for k, v in zip(fighter_name, fighter_odds)}
+        df = pd.read_csv(csv_file_path, dtype={'fighter_1_odds': str, 'fighter_2_odds': str})  # Convert odds columns to str
+        fighter_1 = df['fighter_1'].tolist()  # Convert fighter_1 names to a list
+        fighter_2 = df['fighter_2'].tolist()  # Convert fighter_2 names to a list
+        fighter_1_odds = df['fighter_1_odds'].tolist()  # Convert fighter_1 odds to a list
+        fighter_2_odds = df['fighter_2_odds'].tolist()  # Convert fighter_2 odds to a list
+        
+        # Create a dictionary with both fighters and their odds
+        fighters_to_be_tracked_dict = {}
+        for i in range(len(fighter_1)):
+            # Add fighter_1 to the dictionary
+            fighters_to_be_tracked_dict[fighter_1[i]] = fighter_1_odds[i]
+            # Add fighter_2 to the dictionary
+            fighters_to_be_tracked_dict[fighter_2[i]] = fighter_2_odds[i]
+        
         return fighters_to_be_tracked_dict  # Return the dictionary
     except FileNotFoundError:
         print(f"Error: CSV file not found at {csv_file_path}")
@@ -72,8 +81,9 @@ def scrape_dk():
 def update_csv_with_new_odds(csv_file_path, updated_fighters_dict):
     # Read the existing CSV file
     df = pd.read_csv(csv_file_path)
-    # Update the 'fighter_odds' column with new odds from the dictionary
-    df['fighter_odds'] = df['fighter_name'].map(updated_fighters_dict)
+    # Update the odds columns with new odds from the dictionary
+    df['fighter_1_odds'] = df['fighter_1'].map(updated_fighters_dict)
+    df['fighter_2_odds'] = df['fighter_2'].map(updated_fighters_dict)
     # Save the updated DataFrame back to the CSV file
     df.to_csv(csv_file_path, index=False)
 
@@ -99,7 +109,7 @@ def odds_comparison_fix(current_odds, tracked_odds):
 
 def main():
     # Specify the path to your CSV file
-    csv_file_path = 'fighters_to_be_tracked.csv'
+    csv_file_path = 'fight_odds.csv'
 
     while True:
         current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
