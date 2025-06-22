@@ -78,12 +78,19 @@ def scrape_dk():
                 print(f"{current_time} - Request failed: {e}. Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
 
-def update_csv_with_new_odds(csv_file_path, updated_fighters_dict):
+def update_csv_with_new_odds(csv_file_path, updated_fighters_dict, changed_fighters=None):
     # Read the existing CSV file
     df = pd.read_csv(csv_file_path)
     # Update the odds columns with new odds from the dictionary
     df['fighter_1_odds'] = df['fighter_1'].map(updated_fighters_dict)
     df['fighter_2_odds'] = df['fighter_2'].map(updated_fighters_dict)
+
+    # Only update timestamp for rows where fighters had odds changes
+    if changed_fighters:
+        for index, row in df.iterrows():
+            if row['fighter_1'] in changed_fighters or row['fighter_2'] in changed_fighters:
+                df.at[index, 'timestamp'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+
     # Save the updated DataFrame back to the CSV file
     df.to_csv(csv_file_path, index=False)
 
@@ -118,6 +125,7 @@ def main():
         fighters_to_be_tracked_dict = fighters_to_be_tracked(csv_file_path)
         # Scrape the current fighter odds from DraftKings
         current_fighter_odds_dict = scrape_dk()
+        changed_fighters = set()  # Track which specific fighters had odds changes
 
         if fighters_to_be_tracked_dict and current_fighter_odds_dict:
             for fighter in fighters_to_be_tracked_dict:
@@ -135,9 +143,10 @@ def main():
                     
                     # Update the dictionary with the new odds
                     fighters_to_be_tracked_dict[fighter] = current_odds_str
+                    changed_fighters.add(fighter)  # Add fighter to changed set
 
             # Update local csv file with new odds
-            update_csv_with_new_odds(csv_file_path, fighters_to_be_tracked_dict)
+            update_csv_with_new_odds(csv_file_path, fighters_to_be_tracked_dict, changed_fighters)
             sys.exit("Data processing complete. Exiting program.")
         else:
             current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
