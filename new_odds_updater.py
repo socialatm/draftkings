@@ -5,6 +5,17 @@ import time
 import os
 from datetime import datetime
 import sys
+import logging
+
+# Configure the root logger to output to both a file and the console
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("new_odds_updater.log"),  # Log to a file named new_odds_updater.log
+        logging.StreamHandler()          # Log to the console
+    ]
+)
 
 def fighters_to_be_tracked(csv_file_path):
     try:
@@ -139,7 +150,7 @@ def main():
                 # Check if the odds have changed by at least 10 points
                 if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 10:
                     current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
-                    print(f"{current_time} - Odds change detected for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
+                    logging.info(f"{current_time} - Odds change detected for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
                     
                     # Update the dictionary with the new odds
                     fighters_to_be_tracked_dict[fighter] = current_odds_str
