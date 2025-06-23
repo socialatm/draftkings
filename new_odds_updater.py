@@ -106,9 +106,30 @@ def update_csv_with_new_odds(csv_file_path, updated_fighters_dict, changed_fight
     df.to_csv(csv_file_path, index=False)
 
 def normalize_odds(odds_str):
-    # Replace non-standard minus sign with standard ASCII minus sign
-    normalized_str = odds_str.replace('−', '-')
-    return int(normalized_str) # Convert the normalized string to an integer
+    try:
+        # Handle None or empty strings
+        if not odds_str or odds_str in ['', 'nan', 'NaN']:
+            return 0
+        
+        # Convert to string if it's not already
+        odds_str = str(odds_str)
+        
+        # Replace non-standard minus signs with standard ASCII minus sign
+        normalized_str = odds_str.replace('−', '-').replace('–', '-').replace('—', '-')
+        
+        # Remove any extra whitespace
+        normalized_str = normalized_str.strip()
+        
+        # Remove any non-numeric characters except minus sign and plus sign
+        import re
+        normalized_str = re.sub(r'[^\d\-\+]', '', normalized_str)
+        
+        # Convert to integer
+        return int(normalized_str)
+    
+    except (ValueError, TypeError) as e:
+        logging.error(f"Error normalizing odds '{odds_str}': {e}")
+        return 0  # Return 0 as default for invalid odds
 
 def odds_comparison_fix(current_odds, tracked_odds):
     # If current and tracked are both positive
