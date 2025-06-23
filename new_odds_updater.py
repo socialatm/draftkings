@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 import sys
 import logging
+import re
 
 # Configure the root logger to output to both a file and the console
 logging.basicConfig(
@@ -121,7 +122,6 @@ def normalize_odds(odds_str):
         normalized_str = normalized_str.strip()
         
         # Remove any non-numeric characters except minus sign and plus sign
-        import re
         normalized_str = re.sub(r'[^\d\-\+]', '', normalized_str)
         
         # Convert to integer
