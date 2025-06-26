@@ -12,7 +12,7 @@ import re
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%a %I:%M:%p',  # YYYY-MM-DD HH:MM:SS format
+    datefmt='%a %I:%M:%p',  # Thu 08:30:AM format
     handlers=[
         logging.FileHandler("new_odds_updater.log", encoding='utf-8'),  # Log to a file named new_odds_updater.log
         logging.StreamHandler()          # Log to the console
