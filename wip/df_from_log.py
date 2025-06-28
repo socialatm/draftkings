@@ -3,6 +3,10 @@ import pandas as pd
 import re
 from datetime import datetime
 
+def replace_unicode_minus(text):
+    """Replace Unicode minus sign (U+2212) with ASCII hyphen-minus (U+002D)"""
+    return text.replace('−', '-')
+
 def extract_odds_to_dataframe(log_file_path):
     """Extract odds changes from log file to pandas DataFrame"""
     
