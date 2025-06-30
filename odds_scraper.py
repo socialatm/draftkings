@@ -11,7 +11,6 @@ def scrape_dk():
     url = "https://sportsbook.draftkings.com/leagues/mma/ufc"
 
     max_retries = 5
-    
     retry_delay = 60 # delay in seconds before retrying
     
     for attempt in range(max_retries):
@@ -72,10 +71,8 @@ def scrape_dk():
                     # Make a list of the bout ids 
                     fighter_bout_id = [bout_ids[i] for i in range(0, len(all_fighters_list), 2)]
 
-
-
                     # Get current timestamp for all rows
-                    current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    current_timestamp = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
                     timestamps = [current_timestamp] * len(fighter_1)
 
                     # Sort the column data to make ready to return (now includes timestamp)
