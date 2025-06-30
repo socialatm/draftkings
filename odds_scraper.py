@@ -75,7 +75,7 @@ def scrape_dk():
                     current_timestamp = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
                     timestamps = [current_timestamp] * len(fighter_1)
 
-                    # Sort the column data to make ready to return (now includes timestamp)
+                    # Sort the column data to make ready to return
                     data = list(zip(fighter_1, fighter_1_odds, fighter_2, fighter_2_odds, fighter_bout_id, timestamps))
 
                     return data
@@ -111,7 +111,7 @@ def load_data_from_csv(filename):
         return df
     except FileNotFoundError:
 
-        return pd.DataFrame(columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'timestamp'])
+        return pd.DataFrame(columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'updated_at'])
     
 def main():
     # Get the current directory of the script
@@ -119,8 +119,7 @@ def main():
 
     # Define the path to the CSV file
     csv_filename = os.path.join(current_directory, 'fight_odds.csv')
-    
-    
+        
     while True:
         current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
         print(f'{current_time} - odds scraper running')
@@ -131,7 +130,7 @@ def main():
 
         if scraped_data:
             # Create new dataframe using data scraped from DK website
-            newly_scraped_fight_data_df = pd.DataFrame(scraped_data, columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'timestamp'])
+            newly_scraped_fight_data_df = pd.DataFrame(scraped_data, columns=['fighter_1', 'fighter_1_odds', 'fighter_2', 'fighter_2_odds', 'fighter_bout_id', 'updated_at'])
 
             # Identify new fights by comparing fighter_bout_id against previous data
             new_fights = []

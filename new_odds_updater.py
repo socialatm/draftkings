@@ -102,7 +102,9 @@ def update_csv_with_new_odds(csv_file_path, updated_fighters_dict, changed_fight
     if changed_fighters:
         for index, row in df.iterrows():
             if row['fighter_1'] in changed_fighters or row['fighter_2'] in changed_fighters:
-                df.at[index, 'timestamp'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                df.at[index, 'updated_at'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+    else:
+        df['updated_timestamp'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
 
     # Save the updated DataFrame back to the CSV file
     df.to_csv(csv_file_path, index=False)
