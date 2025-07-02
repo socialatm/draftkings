@@ -46,9 +46,7 @@ def fighters_to_be_tracked(csv_path):
 def scrape_dk():
     # URL of the DraftKings UFC odds page
     url = "https://sportsbook.draftkings.com/leagues/mma/ufc"
-
     max_retries = 5
-
     retry_delay = 60  # delay in seconds before retrying
 
     for attempt in range(max_retries):
@@ -73,12 +71,19 @@ def scrape_dk():
 
                 # Make list of all the fighter names found in the HTML content within the "root" id
                 all_fighters_list = [fighter.text.strip() for fighter in root_id.find_all("div", class_="event-cell__name-text")]
-
+                
                 # Make a list of all the fighter moneyline odds
                 all_fighters_odds_list = [fighter_odds.text.strip() for fighter_odds in root_id.find_all("span", class_="sportsbook-odds american no-margin default-color")]
 
                 # Creating a dictionary
                 current_fighter_odds_dict = {k: v for k, v in zip(all_fighters_list, all_fighters_odds_list)}
+                #print (current_fighter_odds_dict)  # Debugging line to check fighter odds
+
+                updated_odds = pd.DataFrame(current_fighter_odds_dict.items(), columns=['fighter', 'odds'])
+                updated_odds['odds'] = updated_odds['odds'].apply(normalize_odds)
+                print(updated_odds.head(20))  # Debugging line to check the DataFrame
+                print(updated_odds.info())  # Debugging line to check DataFrame info
+
 
                 return current_fighter_odds_dict # Return the dictionary
             else:
