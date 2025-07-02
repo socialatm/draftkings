@@ -79,10 +79,12 @@ def scrape_dk():
                 current_fighter_odds_dict = {k: v for k, v in zip(all_fighters_list, all_fighters_odds_list)}
                 #print (current_fighter_odds_dict)  # Debugging line to check fighter odds
 
-                updated_odds = pd.DataFrame(current_fighter_odds_dict.items(), columns=['fighter', 'odds'])
-                updated_odds['odds'] = updated_odds['odds'].apply(normalize_odds)
-                print(updated_odds.head(20))  # Debugging line to check the DataFrame
-                print(updated_odds.info())  # Debugging line to check DataFrame info
+                
+                # Convert the dictionary to a DataFrame currently for debugging purposes
+                # updated_odds = pd.DataFrame(current_fighter_odds_dict.items(), columns=['fighter', 'odds'])
+                # updated_odds['odds'] = updated_odds['odds'].apply(normalize_odds)
+                # print(updated_odds.head(20))  # Debugging line to check the DataFrame
+                # print(updated_odds.info())  # Debugging line to check DataFrame info
 
 
                 return current_fighter_odds_dict # Return the dictionary
@@ -176,8 +178,8 @@ def main():
                 # Normalize the current odds
                 current_odds = normalize_odds(current_odds_str)
                 
-                # Check if the odds have changed by at least 10 points
-                if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 10:
+                # Check if the odds have changed by at least 1 point
+                if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 1:
                     current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
                     logging.info(f"Odds change for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
                     
