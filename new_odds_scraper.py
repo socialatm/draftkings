@@ -8,7 +8,8 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(script_dir, "next_event", "next_event", "next_event.csv")
 
 data = pd.read_csv(csv_path)
-print(data.head())
-# Display the first few rows of the DataFrame
-print(data.info())
-print(data.describe())
+total_bouts = data['bout_number'].max() # total number of bouts for this event
+print(data.head(total_bouts).to_string(index=False))
+
+#print(data.info())
+#print(data.describe())
