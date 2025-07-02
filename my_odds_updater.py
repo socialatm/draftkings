@@ -21,11 +21,11 @@ logging.basicConfig(
 
 def fighters_to_be_tracked(csv_path):
     try:
-        df = pd.read_csv(csv_path, dtype={'fighter_1_odds': str, 'fighter_2_odds': str})  # Convert odds columns to str
-        fighter_1 = df['fighter_1'].tolist()  # Convert fighter_1 names to a list
-        fighter_2 = df['fighter_2'].tolist()  # Convert fighter_2 names to a list
-        fighter_1_odds = df['fighter_1_odds'].tolist()  # Convert fighter_1 odds to a list
-        fighter_2_odds = df['fighter_2_odds'].tolist()  # Convert fighter_2 odds to a list
+        data = pd.read_csv(csv_path, dtype={'fighter_1_odds': str, 'fighter_2_odds': str})  # Convert odds columns to str
+        fighter_1 = data['fighter_1'].tolist()  # Convert fighter_1 names to a list
+        fighter_2 = data['fighter_2'].tolist()  # Convert fighter_2 names to a list
+        fighter_1_odds = data['fighter_1_odds'].tolist()  # Convert fighter_1 odds to a list
+        fighter_2_odds = data['fighter_2_odds'].tolist()  # Convert fighter_2 odds to a list
         
         # Create a dictionary with both fighters and their odds
         fighters_to_be_tracked_dict = {}
@@ -93,21 +93,21 @@ def scrape_dk():
 
 def update_csv_with_new_odds(csv_path, updated_fighters_dict, changed_fighters=None):
     # Read the existing CSV file
-    df = pd.read_csv(csv_path)
+    data = pd.read_csv(csv_path)
     # Update the odds columns with new odds from the dictionary
-    df['fighter_1_odds'] = df['fighter_1'].map(updated_fighters_dict)
-    df['fighter_2_odds'] = df['fighter_2'].map(updated_fighters_dict)
+    data['fighter_1_odds'] = data['fighter_1'].map(updated_fighters_dict)
+    data['fighter_2_odds'] = data['fighter_2'].map(updated_fighters_dict)
 
     # Only update timestamp for rows where fighters had odds changes
     if changed_fighters:
-        for index, row in df.iterrows():
+        for index, row in data.iterrows():
             if row['fighter_1'] in changed_fighters or row['fighter_2'] in changed_fighters:
-                df.at[index, 'updated_at'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+                data.at[index, 'updated_at'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
     else:
-        df['updated_timestamp'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
+        data['updated_timestamp'] = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
 
     # Save the updated DataFrame back to the CSV file
-    df.to_csv(csv_path, index=False)
+    data.to_csv(csv_path, index=False)
 
 def normalize_odds(odds_str):
     try:
@@ -153,8 +153,7 @@ def main():
     # Construct the full path to the CSV file
     script_dir = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(script_dir, "odds.csv")
-    print(f"CSV file path: {csv_path}")
-
+        
     while True:
         current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
         print(f"{current_time} - odds updater running")
