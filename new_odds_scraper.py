@@ -13,7 +13,8 @@ total_bouts = data['bout_number'].max() # total number of bouts for this event
 # sort by bout_number decending
 data = data.sort_values(by='bout_number', ascending=False)
 
-# add new columns fighter_1_odds and fighter_2_odds and add a default value
+# add new columns fighter_1_odds , fighter_2_odds and updated_at and add a default value for each
+data['updated_at'] = pd.Timestamp.now().strftime('%b-%d-%Y %I:%M:%p')
 data['fighter_1_odds'] = -100
 data['fighter_2_odds'] = +100
 
