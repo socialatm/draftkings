@@ -1,13 +1,22 @@
 June 20, 2025 = Day 5 of learning Python
 
 ***
+## Get the next UFC event
+To get the upcoming UFC event:
 
-To get the current odds delete the file _**fight_odds.csv**_ and then run:
+```python
+cd next_event/next_event
+py -m scrapy crawl event
+```
+## Import and format it:
+
 ``` python
 py odds_scraper.py
 ```
-Once the _**fight_odds.csv**_ file has been created, run:
+## Update the odds from draftkings:
+
 ``` python
-py new_odds_updater.py
+py odds_updater.py
 ```
-to check for new odds.
+***
+Additional info in the [wiki](https://github.com/socialatm/draftkings/wiki)
