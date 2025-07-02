@@ -22,10 +22,10 @@ logging.basicConfig(
 def fighters_to_be_tracked(csv_path):
     try:
         data = pd.read_csv(csv_path, dtype={'fighter_1_odds': str, 'fighter_2_odds': str})  # Convert odds columns to str
-        fighter_1 = data['fighter_1'].tolist()  # Convert fighter_1 names to a list
-        fighter_2 = data['fighter_2'].tolist()  # Convert fighter_2 names to a list
-        fighter_1_odds = data['fighter_1_odds'].tolist()  # Convert fighter_1 odds to a list
-        fighter_2_odds = data['fighter_2_odds'].tolist()  # Convert fighter_2 odds to a list
+        fighter_1 = data.fighter_1.tolist()  # Convert fighter_1 names to a list
+        fighter_2 = data.fighter_2.tolist()  # Convert fighter_2 names to a list
+        fighter_1_odds = data.fighter_1_odds.tolist()  # Convert fighter_1 odds to a list
+        fighter_2_odds = data.fighter_2_odds.tolist()  # Convert fighter_2 odds to a list
         
         # Create a dictionary with both fighters and their odds
         fighters_to_be_tracked_dict = {}
@@ -147,7 +147,6 @@ def odds_comparison_fix(current_odds, tracked_odds):
     # If current is positive and tracked is negative
     else:
         return (current_odds - 100) - (tracked_odds + 100)
-    
 
 def main():
     # Construct the full path to the CSV file
