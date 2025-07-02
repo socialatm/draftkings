@@ -6,6 +6,9 @@ To get the upcoming UFC event:
 
 ```python
 cd next_event/next_event
+```
+then:
+```python
 py -m scrapy crawl event
 ```
 ## Import and format it:
