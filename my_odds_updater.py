@@ -21,26 +21,18 @@ logging.basicConfig(
 
 def fighters_to_be_tracked(csv_path):
     try:
-        data = pd.read_csv(csv_path, dtype={'fighter_1_odds': str, 'fighter_2_odds': str})  # Convert odds columns to str
-        fighter_1 = data.fighter_1.tolist()  # Convert fighter_1 names to a list
-        fighter_2 = data.fighter_2.tolist()  # Convert fighter_2 names to a list
-        fighter_1_odds = data.fighter_1_odds.tolist()  # Convert fighter_1 odds to a list
-        fighter_2_odds = data.fighter_2_odds.tolist()  # Convert fighter_2 odds to a list
-        
-        # Create a dictionary with both fighters and their odds
-        fighters_to_be_tracked_dict = {}
-        for i in range(len(fighter_1)):
-            # Add fighter_1 to the dictionary
-            fighters_to_be_tracked_dict[fighter_1[i]] = fighter_1_odds[i]
-            # Add fighter_2 to the dictionary
-            fighters_to_be_tracked_dict[fighter_2[i]] = fighter_2_odds[i]
-        
-        return fighters_to_be_tracked_dict  # Return the dictionary
-    except FileNotFoundError:
-        print(f"Error: CSV file not found at {csv_path}")
-        return {}
-    except pd.errors.EmptyDataError:
-        print(f"Error: CSV file is empty or malformed")
+        df = pd.read_csv(csv_path, dtype=str)
+
+        # Create pandas Series for both sets of fighters and their odds
+        s1 = pd.Series(df.fighter_1_odds.values, index=df.fighter_1)
+        s2 = pd.Series(df.fighter_2_odds.values, index=df.fighter_2)
+
+        # Concatenate the series and convert to a dictionary. This is more
+        # efficient and idiomatic than creating lists and iterating.
+        return pd.concat([s1, s2]).to_dict()
+
+    except (FileNotFoundError, pd.errors.EmptyDataError) as e:
+        print(f"Error reading or parsing CSV at {csv_path}: {e}")
         return {}
 
 def scrape_dk():
