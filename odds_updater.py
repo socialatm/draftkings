@@ -169,9 +169,9 @@ def main():
                 current_odds = normalize_odds(current_odds_str)
                 
                 # Check if the odds have changed by at least 1 point
-                if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 1:
-                    current_time = datetime.now().strftime('%b-%d-%Y %I:%M:%p')
-                    logging.info(f"Odds change for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
+                if abs(odds_comparison_fix(current_odds, tracked_odds)) >= 1:                    
+                    if abs(current_odds) != 100:
+                        logging.info(f"Odds change for {fighter}: {fighters_to_be_tracked_dict[fighter]} -> {current_fighter_odds_dict[fighter]}")
                     
                     # Update the dictionary with the new odds
                     fighters_to_be_tracked_dict[fighter] = current_odds_str
