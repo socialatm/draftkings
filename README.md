@@ -27,5 +27,6 @@ If the event changes, fight is canceled, fighter drops of the card etc... , just
 ``` python
 py odds_updater.py
 ```
+Please note: Never run the updater when a fight is live.
 ***
 Additional info in the [wiki](https://github.com/socialatm/draftkings/wiki)
