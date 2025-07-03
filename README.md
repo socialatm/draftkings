@@ -13,11 +13,15 @@ then:
 ```python
 py -m scrapy crawl event
 ```
+
 ## Import and format it:
 
 ``` python
 py odds_scraper.py
 ```
+If the event changes, fight is canceled, fighter drops of the card etc... , just re-run the above code to get
+ the updates.
+ 
 ## Update the odds from draftkings:
 
 ``` python
