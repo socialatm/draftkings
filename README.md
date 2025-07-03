@@ -1,6 +1,6 @@
 June 20, 2025 = Day 5 of learning Python
 
-_"Write it in English, translate it to Python._
+_"Write it in English, translate it to Python"._
 
 ***
 ## Get the next UFC event
